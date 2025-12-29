@@ -1,5 +1,6 @@
 import { prisma } from "@/app/lib/db";
 import NextAuth from "next-auth";
+import youtubesearchapi from "youtube-search-api"
 import GoogleProvider from "next-auth/providers/google";
 const handler=NextAuth({
 providers: [
@@ -14,13 +15,11 @@ callbacks:{
     if (!params.user.email){
       return false
     }
-     await prisma.user.upsert({
-      where: { email: params.user.email },
-      update: {},
-      create: {
+     await prisma.user.create({
+      data: {
         email: params.user.email,
         provider: "Google",
-        role: "Streamer",
+        role:"EndUser"
       },
     });
 
